@@ -28,8 +28,25 @@ public class StringCalculatorTest {
         assertEquals(15, StringCalculator.add("1\n2,3\n4,5"));
     }
 
+    @Test
+    public void testCustomDelimiter() {
+        assertEquals(3, StringCalculator.add("//;\n1;2"));
+        assertEquals(6, StringCalculator.add("//[***]\n1***2***3"));
+        assertEquals(6, StringCalculator.add("//[;]\n1;2;3"));
+    }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeNumbers() {
+        StringCalculator.add("//;\n1;-2;3");
+    }
 
-
+    @Test
+    public void testNegativeNumbersExceptionMessage() {
+        try {
+            StringCalculator.add("//;\n1;-2;-3");
+        } catch (IllegalArgumentException e) {
+            assertEquals("negative numbers not allowed -2, -3", e.getMessage());
+        }
+    }
 }
 
