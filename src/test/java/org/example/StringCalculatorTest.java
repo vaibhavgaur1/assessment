@@ -28,6 +28,8 @@ public class StringCalculatorTest {
         assertEquals(15, StringCalculator.add("1\n2,3\n4,5"));
     }
 
- 
+
+
+    
 }
 
