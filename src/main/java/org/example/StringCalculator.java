@@ -1,5 +1,9 @@
 package org.example;
 
+import org.example.exception.NegativeNumberException;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,13 +25,23 @@ public class StringCalculator {
 
         String[] splitNumbers = numbers.split(delimiter);
         int total = 0;
+        List<Integer> negatives = new ArrayList<>();
 
         for (String number : splitNumbers) {
             if (!number.isEmpty()) {
                 int value = parseNumber(number);
-                total += value;
+                if (value < 0) {
+                    negatives.add(value);
+                } else {
+                    total += value;
+                }
             }
         }
+        if (!negatives.isEmpty()) {
+            throw new NegativeNumberException("negative numbers not allowed " +
+                    String.join(", ", negatives.toString().replaceAll("[\\[\\]\\s]", "")));
+        }
+
         return total;
     }
 
@@ -54,6 +68,9 @@ public class StringCalculator {
             System.out.println(add("1,5"));
             System.out.println(add("1\n2,3"));
             System.out.println(add("//;\n1;2"));
+            System.out.println(add("//[***]\n1***2***3"));
+            System.out.println(add("//[;]\n1;2;3"));
+            System.out.println(add("//[;]\n1;-2;-3"));
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }

@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.exception.NegativeNumberException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -35,7 +36,7 @@ public class StringCalculatorTest {
         assertEquals(6, StringCalculator.add("//[;]\n1;2;3"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NegativeNumberException.class)
     public void testNegativeNumbers() {
         StringCalculator.add("//;\n1;-2;3");
     }
@@ -44,8 +45,8 @@ public class StringCalculatorTest {
     public void testNegativeNumbersExceptionMessage() {
         try {
             StringCalculator.add("//;\n1;-2;-3");
-        } catch (IllegalArgumentException e) {
-            assertEquals("negative numbers not allowed -2, -3", e.getMessage());
+        } catch (NegativeNumberException e) {
+            assertEquals("negative numbers not allowed -2,-3", e.getMessage());
         }
     }
 }
